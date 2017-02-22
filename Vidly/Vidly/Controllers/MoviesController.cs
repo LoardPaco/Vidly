@@ -10,40 +10,39 @@ namespace Vidly.Controllers
 {
     public class MoviesController : Controller
     {
+        public ViewResult Index()
+        {
+            var movies = GetMovies();
+
+            return View(movies);
+        }
+
+        private IEnumerable<Movie> GetMovies()
+        {
+            return new List<Movie>
+            {
+                new Movie { Id = 1, Name = "Shrek" },
+                new Movie { Id = 2, Name = "Wall-e" }
+            };
+        }
+
         // GET: Movies/Random
         public ActionResult Random()
         {
-            var movie = new Movie() { Name = "Types of Movies:" };
+            var movie = new Movie() { Name = "Movies" };
             var customers = new List<customer>
             {
-             new customer {Name = "Customer 1" },
-             new customer {Name = "Customer 2" }
+                new customer { Name = "Shrek" },
+                new customer { Name = "Wall-e" }
             };
+
             var viewModel = new RandomMovieViewModel
             {
                 Movie = movie,
                 Customers = customers
             };
+
             return View(viewModel);
-            
-            //return Content("Hello World");
-            //return HttpNotFound();
-            //return new EmptyResult();
-           // return RedirectToAction("Index", "Home", new { page = 1, sortBy = "name" });
-        }
-        [Route("movies/released/{year}/{month:regex(\\d{4}):range(1, 12)}")]
-        public ActionResult ByReleaseYear(int year, int month)
-        {
-            return Content(year + "/" + month);
-        }
-        // movies
-        public ActionResult index(int? pageIndex, string sortBy)
-        {
-            if (!pageIndex.HasValue)
-                pageIndex = 1;
-            if (string.IsNullOrWhiteSpace(sortBy))
-                sortBy = "Name";
-            return Content(string.Format("pageIndex={0}&sortBy={1}", pageIndex, sortBy));
         }
     }
 }
